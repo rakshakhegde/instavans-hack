@@ -14,7 +14,9 @@
 	<!--Let browser know website is optimized for mobile-->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<style>
-
+		.row, #error-text {
+			display: none;
+		}
 
 	</style>
 </head>
@@ -23,7 +25,7 @@
 	<div id="header" class="center-align teal">
 		<div class="section">
 			<h4 class="light white-text">#InstavansHack</h4>
-			<h5 class="white-text">Driver</h5>
+			<h5 class="white-text">Trucker</h5>
 		</div>
 	</div>
 	<div class="container">
@@ -39,10 +41,10 @@
 			</div>
 			<div id="tab-request" class="col s12 m8 offset-m2 l6 offset-l3">
 				<div class="input-field col s8 offset-s2">
-					<input value="1" id="num-porters" type="text" class="validate" />
-					<label class="active" for="num-porters">Number of Porters</label>
+					<input class="light center-align" value="1" id="num-porters" type="text" style="font-size:2em" />
+					<label class="active" for="num-porters" >Number of Porters</label>
 				</div>
-				<button id="btn-ok" class="btn-large waves-effect waves-light blue col s4 offset-s4">OK</button>
+				<button id="btn-ok" class="btn-large waves-effect waves-light pink col s4 offset-s4">OK</button>
 			</div>
 			<div id="tab-history" class="col s12 m8 offset-m2 l6 offset-l3">
 				<h3>Yolo</h3>

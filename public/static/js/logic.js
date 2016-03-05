@@ -1,18 +1,28 @@
+if ('serviceWorker' in navigator) {
+	showError('Service Worker is supported');
+	navigator.serviceWorker.register('sw.js').then(function (reg) {
+		showError(':^)' + reg);
+		// TODO
+	}).catch(function (err) {
+		console.log(':^(', err);
+	});
+}
+
 rootRef = new Firebase('https://instavans.firebaseio.com/');
 rootRef.onAuth(refresh);
 
 function setFields() {
 	var uid = rootRef.getAuth().uid;
-	rootRef.child('user/' + uid).once('value', function(data) {
+	rootRef.child('user/' + uid).once('value', function (data) {
 		$('#logged-in-section').show();
 	});
 }
 
-$('#login').click(function(event) {
+$('#login').click(function (event) {
 	rootRef.authWithOAuthPopup('twitter');
 });
 
-$('#logout').click(function(event) {
+$('#logout').click(function (event) {
 	rootRef.unauth();
 });
 
