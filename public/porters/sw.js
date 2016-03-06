@@ -1,9 +1,12 @@
 importScripts('https://cdn.firebase.com/js/client/2.4.0/firebase.js');
+rootRef = new Firebase('https://instavans.firebaseio.com/');
+
+console.log('In porters sw.js');
 
 self.addEventListener('notificationclick', function (event) {
 	console.log('Notification click: tag ', event.notification.tag);
 	event.notification.close();
-	var url = 'https://instavans.firebaseapp.com';
+	var url = 'https://instavans.firebaseapp.com/porters';
 	event.waitUntil(
 		clients.matchAll({
 			type: 'window'
@@ -21,10 +24,13 @@ self.addEventListener('notificationclick', function (event) {
 	);
 });
 
-rootRef = new Firebase('https://instavans.firebaseio.com/');
 
-self.registration.showNotification("Porter name", {
-	body: "data.val()",
-	icon: 'static/images/twitter_mini_logo.png',
-	tag: 'tag-trucker'
+rootRef.child('active').on('value', function (data) {
+	console.log(data.val());
+	if (data.val()) {
+		self.registration.showNotification("New Job", {
+			body: "Check it out!",
+			tag: 'tag-porter'
+		});
+	}
 });

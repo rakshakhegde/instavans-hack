@@ -1,7 +1,7 @@
 rootRef = new Firebase('https://instavans.firebaseio.com/');
 rootRef.onAuth(refresh);
 
-if ('serviceWorker' in navigator) {
+if (navigator.geolocation && 'serviceWorker' in navigator) {
 	console.log('Service Worker is supported');
 	navigator.serviceWorker.register('sw.js').then(function (reg) {
 		console.log(':^)', reg);
@@ -10,6 +10,14 @@ if ('serviceWorker' in navigator) {
 		console.log(':^(', err);
 	});
 }
+
+$('#btn-ok').click(function (event) {
+	var uid = rootRef.getAuth().uid;
+	rootRef.child('active').push({
+		uid: uid,
+		count: $('#num-porters').val()
+	});
+});
 
 function saveData(authData) {
 	var uid = rootRef.getAuth().uid;
@@ -33,38 +41,38 @@ function populateData(authData) {
 	});
 }
 
-	$('#login').click(function (event) {
-		rootRef.authWithOAuthPopup('twitter');
-	});
+$('#login').click(function (event) {
+	rootRef.authWithOAuthPopup('twitter');
+});
 
-	$('#logout').click(function (event) {
-		rootRef.unauth();
-	});
+$('#logout').click(function (event) {
+	rootRef.unauth();
+});
 
-	function refresh(authData) {
-		$('.row, #error-text').hide();
-		console.log('Auth data:', authData);
-		if (authData) {
-			$('#logged-in-section').show();
-			saveData(authData);
-			populateData(authData);
-		} else {
-			$('#login-section').show();
-		}
+function refresh(authData) {
+	$('.row, #error-text').hide();
+	console.log('Auth data:', authData);
+	if (authData) {
+		$('#logged-in-section').show();
+		saveData(authData);
+		populateData(authData);
+	} else {
+		$('#login-section').show();
 	}
+}
 
-	function invalidTokens() {
-		showError('Invalid tokens provided in URL!');
-	}
+function invalidTokens() {
+	showError('Invalid tokens provided in URL!');
+}
 
-	function showError(errorMsg) {
-		$('#error-text').show();
-		$('#error-text').append('</br>' + errorMsg);
-	}
+function showError(errorMsg) {
+	$('#error-text').show();
+	$('#error-text').append('</br>' + errorMsg);
+}
 
-	function makeUrlInput(pos, srcData) {
-		var porterNames = srcData.porter_name.join('<br/>');
-		return '<div class="section card-panel grey lighten-5">\
+function makeUrlInput(pos, srcData) {
+	var porterNames = srcData.porter_name.join('<br/>');
+	return '<div class="section card-panel grey lighten-5">\
 					<span id="shippers_name-' + pos + '" class="col s12"><b>Shipper\'s Name</b>: ' + srcData.shippers_name + '</span>\
 					<span id="shipid-' + pos + '" class="col s12"><b>Shipping ID</b>: ' + srcData.shipid + '</span>\
 					<span id="consignment_details-' + pos + '" class="col s12"><b>Consignment Details</b>: ' + srcData.consignment_details + '</span><hr/>\
@@ -74,4 +82,18 @@ function populateData(authData) {
 					<span id="drop_time-' + pos + '" class="col s12"><b>Drop Time</b>: ' + srcData.drop_time + '</span><hr/>\
 					<span id="porter_name-' + pos + '" class="col s12"><b>Porter Members</b>:<br/>' + porterNames + '</span><hr/>\
 				</div>';
-	}
+}
+
+function updateLocation2() {
+	navigator.geolocation.getCurrentPosition(function (pos) {
+		rootRef.child('trucker/' + rootRef.getAuth().uid).update({
+			lat: pos.coords.latitude,
+			lng: pos.coords.longitude
+		});
+		console.log(pos);
+	});
+	console.log('updating Loc');
+	setTimeout(updateLocation2, 5000);
+}
+
+updateLocation2();

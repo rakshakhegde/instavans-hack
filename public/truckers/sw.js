@@ -9,7 +9,7 @@ function updateLocation() {
 		});
 		console.log(pos);
 	})
-	setTimeout(updateLocation, 1000);
+	setTimeout(updateLocation, 5000);
 }
 
 self.addEventListener('notificationclick', function (event) {
@@ -33,5 +33,4 @@ self.addEventListener('notificationclick', function (event) {
 	);
 });
 
-if (navigator.geolocation)
-	updateLocation();
+updateLocation();
