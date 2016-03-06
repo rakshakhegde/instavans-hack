@@ -7,14 +7,15 @@
 	<title>#InstavansHack</title>
 
 	<!--Import Google Icon Font-->
-	<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 	<!--Import materialize.css-->
 	<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css" media="screen,projection" />
 
 	<!--Let browser know website is optimized for mobile-->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<style>
-		.row, #error-text {
+		.row,
+		#error-text {
 			display: none;
 		}
 
@@ -42,12 +43,23 @@
 			<div id="tab-request" class="col s12 m8 offset-m2 l6 offset-l3">
 				<div class="input-field col s8 offset-s2">
 					<input class="light center-align" value="1" id="num-porters" type="text" style="font-size:2em" />
-					<label class="active" for="num-porters" >Number of Porters</label>
+					<label class="active" for="num-porters">Number of Porters</label>
 				</div>
 				<button id="btn-ok" class="btn-large waves-effect waves-light pink col s4 offset-s4">OK</button>
 			</div>
 			<div id="tab-history" class="col s12 m8 offset-m2 l6 offset-l3">
-				<h3>Yolo</h3>
+				<div class="card-panel grey lighten-5">
+					<div class="valign-wrapper">
+						<div class="col s2">
+							<img src="static/images/twitter_mini_logo.png" alt="" class="circle responsive-img" id="avatar-0" />
+						</div>
+						<div class="col s10">
+							<span id="Shipper's name">
+                This is a square image. Add the "circle" class to it to make it appear circular.
+              </span>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		<p id="error-text" class="center-align red-text"></p>
@@ -57,7 +69,7 @@
 	<script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
 	<script src="https://cdn.firebase.com/js/client/2.4.0/firebase.js"></script>
-	<script src="static/js/logic.js"></script>
+	<script src="static/js/main.js"></script>
 </body>
 
 </html>

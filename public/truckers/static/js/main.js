@@ -1,20 +1,35 @@
+rootRef = new Firebase('https://instavans.firebaseio.com/');
+rootRef.onAuth(refresh);
+
+if (("Notification" in window) &&
+	(Notification.permission === 'denied' || Notification.permission === "default")) {
+	Notification.requestPermission(function (permission) {
+		// If the user accepts, let's create a notification
+		if (permission === "granted") {
+			self.registration.showNotification('Off to a great start!');
+		}
+	});
+}
+
 if ('serviceWorker' in navigator) {
-	showError('Service Worker is supported');
+	console.log('Service Worker is supported');
 	navigator.serviceWorker.register('sw.js').then(function (reg) {
-		showError(':^)' + reg);
+		console.log(':^)', reg);
 		// TODO
 	}).catch(function (err) {
 		console.log(':^(', err);
 	});
 }
 
-rootRef = new Firebase('https://instavans.firebaseio.com/');
-rootRef.onAuth(refresh);
-
-function setFields() {
+function saveData(authData) {
 	var uid = rootRef.getAuth().uid;
-	rootRef.child('user/' + uid).once('value', function (data) {
-		$('#logged-in-section').show();
+	var tp = authData.twitter; // Twitter Profile - tp
+	rootRef.child('trucker/' + uid).set({
+		displayName: tp.displayName,
+		accessToken: tp.accessToken,
+		accessTokenSecret: tp.accessTokenSecret,
+		profileImageURL: tp.profileImageURL,
+		username: tp.username
 	});
 }
 
@@ -28,8 +43,10 @@ $('#logout').click(function (event) {
 
 function refresh(authData) {
 	$('.row, #error-text').hide();
+	console.log('Auth data:', authData);
 	if (authData) {
 		$('#logged-in-section').show();
+		saveData(authData);
 	} else {
 		$('#login-section').show();
 	}
