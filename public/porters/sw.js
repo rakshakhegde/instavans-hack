@@ -1,16 +1,4 @@
 importScripts('https://cdn.firebase.com/js/client/2.4.0/firebase.js');
-rootRef = new Firebase('https://instavans.firebaseio.com/');
-
-function updateLocation() {
-	navigator.geolocation.getCurrentPosition(function (pos) {
-		rootRef.child('trucker/' + rootRef.getAuth().uid).update({
-			lat: pos.coords.latitude,
-			lng: pos.coords.longitude
-		});
-		console.log(pos);
-	})
-	setTimeout(updateLocation, 1000);
-}
 
 self.addEventListener('notificationclick', function (event) {
 	console.log('Notification click: tag ', event.notification.tag);
@@ -33,5 +21,10 @@ self.addEventListener('notificationclick', function (event) {
 	);
 });
 
-if (navigator.geolocation)
-	updateLocation();
+rootRef = new Firebase('https://instavans.firebaseio.com/');
+
+self.registration.showNotification("Porter name", {
+	body: "data.val()",
+	icon: 'static/images/twitter_mini_logo.png',
+	tag: 'tag-trucker'
+});

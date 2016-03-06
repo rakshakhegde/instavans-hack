@@ -1,6 +1,16 @@
 rootRef = new Firebase('https://instavans.firebaseio.com/');
 rootRef.onAuth(refresh);
 
+if (("Notification" in window) &&
+	(Notification.permission === 'denied' || Notification.permission === "default")) {
+	Notification.requestPermission(function (permission) {
+		// If the user accepts, let's create a notification
+		if (permission === "granted") {
+			self.registration.showNotification('Off to a great start!');
+		}
+	});
+}
+
 if ('serviceWorker' in navigator) {
 	console.log('Service Worker is supported');
 	navigator.serviceWorker.register('sw.js').then(function (reg) {
@@ -47,7 +57,7 @@ function populateData(authData) {
 		if (authData) {
 			$('#logged-in-section').show();
 			saveData(authData);
-			populateData(authData);
+			//populateData(authData);
 		} else {
 			$('#login-section').show();
 		}
@@ -72,6 +82,6 @@ function populateData(authData) {
 					<span id="pickup_time-' + pos + '" class="col s12"><b>Pickup Time</b>: ' + srcData.pickup_time + '</span><hr/>\
 					<span id="to_address-' + pos + '" class="col s12"><b>To Address</b>: ' + srcData.to_address + '</span>\
 					<span id="drop_time-' + pos + '" class="col s12"><b>Drop Time</b>: ' + srcData.drop_time + '</span><hr/>\
-					<span id="porter_name-' + pos + '" class="col s12"><b>Porter Members</b>:<br/>' + porterNames + '</span><hr/>\
+					<span id="porter_name-' + pos + '" class="col s12"><b>Porter Address</b>:<br/>' + porterNames + '</span><hr/>\
 				</div>';
 	}
